@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Results & Correction - Smart Steps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #fafafa;
+            --color-bg-elevated: #ffffff;
+            --color-border: rgba(0, 0, 0, 0.06);
+            --color-border-hover: rgba(0, 0, 0, 0.12);
+            --color-text-primary: #0a0a0a;
+            --color-text-secondary: #666666;
+            --color-text-tertiary: #999999;
+            --color-accent: #0066ff;
+            --color-accent-hover: #0052cc;
+            --color-accent-light: rgba(0, 102, 255, 0.08);
+            --color-success: #0ea05a;
+            --color-success-light: rgba(14, 160, 90, 0.08);
+            --color-warning: #f59e0b;
+            --color-warning-light: rgba(245, 158, 11, 0.08);
+            --color-danger: #ef4444;
+            --color-danger-light: rgba(239, 68, 68, 0.08);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.06);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-bg-elevated);
+            border-bottom: 1px solid var(--color-border);
+            padding: 32px;
+            text-align: center;
+            animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 32px 96px;
+        }
+
+        /* Results Card */
+        .results-card {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Score Summary */
+        .score-summary {
+            text-align: center;
+            padding: 40px;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 40px;
+        }
+
+        .score-label {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-tertiary);
+            margin-bottom: 16px;
+        }
+
+        .main-score {
+            font-family: var(--font-display);
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .percentage {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            padding: 12px 32px;
+            border-radius: var(--radius-lg);
+            display: inline-block;
+        }
+
+        .percentage.excellent {
+            background: var(--color-success-light);
+            color: var(--color-success);
+        }
+
+        .percentage.good {
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+        }
+
+        .percentage.average {
+            background: var(--color-warning-light);
+            color: var(--color-warning);
+        }
+
+        .percentage.poor {
+            background: var(--color-danger-light);
+            color: var(--color-danger);
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 24px;
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+        }
+
+        .stat-item .label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-tertiary);
+            margin-bottom: 12px;
+        }
+
+        .stat-item .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .correct-count {
+            color: var(--color-success) !important;
+        }
+
+        .incorrect-count {
+            color: var(--color-danger) !important;
+        }
+
+        .unanswered-count {
+            color: var(--color-warning) !important;
+        }
+
+        /* Subject Scores */
+        .subject-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-score-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+            transition: all var(--transition-fast);
+        }
+
+        .subject-score-card:hover {
+            border-color: var(--color-border-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .subject-score-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .subject-score-card .score {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+        }
+
+        .tab:hover {
+            border-color: var(--color-border-hover);
+            color: var(--color-text-primary);
+        }
+
+        .tab.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: all var(--transition-base);
+        }
+
+        .question-card:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-card.correct {
+            border-left-color: var(--color-success);
+            background: linear-gradient(to right, var(--color-success-light), transparent);
+        }
+
+        .question-card.incorrect {
+            border-left-color: var(--color-danger);
+            background: linear-gradient(to right, var(--color-danger-light), transparent);
+        }
+
+        .question-card.unanswered {
+            border-left-color: var(--color-warning);
+            background: linear-gradient(to right, var(--color-warning-light), transparent);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .question-number {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-tertiary);
+        }
+
+        .status-badge {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            letter-spacing: -0.01em;
+        }
+
+        .status-badge.correct {
+            background: var(--color-success-light);
+            color: var(--color-success);
+        }
+
+        .status-badge.incorrect {
+            background: var(--color-danger-light);
+            color: var(--color-danger);
+        }
+
+        .status-badge.unanswered {
+            background: var(--color-warning-light);
+            color: var(--color-warning);
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
+
+        .question-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .question-image {
+            width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Options */
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            background: var(--color-bg-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .option.correct-answer {
+            border-color: var(--color-success);
+            background: var(--color-success-light);
+        }
+
+        .option.student-wrong {
+            border-color: var(--color-danger);
+            background: var(--color-danger-light);
+        }
+
+        .option.student-correct {
+            border-color: var(--color-success);
+            background: var(--color-success-light);
+        }
+
+        .option-label {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            flex-shrink: 0;
+        }
+
+        .option-label.correct {
+            background: var(--color-success);
+            border-color: var(--color-success);
+            color: white;
+        }
+
+        .option-label.wrong {
+            background: var(--color-danger);
+            border-color: var(--color-danger);
+            color: white;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            color: var(--color-text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .option-icon {
+            font-size: 18px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+
+        /* Back Home */
+        .back-home {
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .back-home a {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+        }
+
+        .back-home a:hover {
+            border-color: var(--color-accent);
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 96px 32px;
+            color: var(--color-text-secondary);
+            font-size: 15px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 32px 20px 64px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .results-card {
+                padding: 28px 20px;
+            }
+
+            .main-score {
+                font-size: 56px;
+            }
+
+            .percentage {
+                font-size: 36px;
+                padding: 10px 24px;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .subject-scores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .question-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="mockName">Mock Exam Results</h1>
+        <p id="studentName">Loading...</p>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="loading">Loading your results...</div>
+    </div>
+
+    <script>
+        const correctionId = window.location.pathname.split('/').pop();
+        let correctionData = null;
+
+        async function loadCorrection() {
+            try {
+                const response = await fetch(`/api/correction/${correctionId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Correction not found');
+                }
+
+                correctionData = await response.json();
+                displayResults();
+            } catch (error) {
+                console.error('Load correction error:', error);
+                document.getElementById('mainContainer').innerHTML = `
+                    <div class="results-card">
+                        <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;">Error Loading Results</h2>
+                        <p style="text-align: center; color: #666; font-size: 16px; line-height: 1.6;">
+                            The correction link may be invalid or expired.
+                        </p>
+                        <div class="back-home">
+                            <a href="/">Return to Home</a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayResults() {
+            document.getElementById('mockName').textContent = correctionData.mockName;
+            document.getElementById('studentName').textContent = `${correctionData.studentName} - ${new Date(correctionData.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
+            const percentageClass = 
+                correctionData.percentage >= 75 ? 'excellent' :
+                correctionData.percentage >= 60 ? 'good' :
+                correctionData.percentage >= 45 ? 'average' : 'poor';
+
+            const timeMinutes = Math.floor(correctionData.timeSpent / 60);
+            const timeSeconds = correctionData.timeSpent % 60;
+
+            // Calculate question stats
+            const subjects = ['english', 'physics', 'chemistry', correctionData.selectedSubject];
+            let totalCorrect = 0;
+            let totalIncorrect = 0;
+            let totalUnanswered = 0;
+
+            subjects.forEach(subject => {
+                const questions = correctionData.questions[subject];
+                questions.forEach((q, index) => {
+                    const answer = correctionData.answers.find(a => a.subject === subject && a.questionIndex === index);
+                    if (!answer || answer.selectedAnswer === undefined) {
+                        totalUnanswered++;
+                    } else if (answer.selectedAnswer === q.correctAnswer) {
+                        totalCorrect++;
+                    } else {
+                        totalIncorrect++;
+                    }
+                });
+            });
+
+            const html = `
+                <div class="results-card">
+                    <div class="score-summary">
+                        <div class="score-label">Your Score</div>
+                        <div class="main-score">${correctionData.totalScore}/${correctionData.totalQuestions}</div>
+                        <div class="percentage ${percentageClass}">${correctionData.percentage}%</div>
+                    </div>
+
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <div class="label">Correct</div>
+                            <div class="value correct-count">${totalCorrect}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="label">Incorrect</div>
+                            <div class="value incorrect-count">${totalIncorrect}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="label">Unanswered</div>
+                            <div class="value unanswered-count">${totalUnanswered}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="label">Time Spent</div>
+                            <div class="value">${timeMinutes}m ${timeSeconds}s</div>
+                        </div>
+                    </div>
+
+                    <div class="subject-scores">
+                        <div class="subject-score-card">
+                            <h3>English</h3>
+                            <div class="score">${correctionData.scores.english.score}/${correctionData.scores.english.total}</div>
+                        </div>
+                        <div class="subject-score-card">
+                            <h3>Physics</h3>
+                            <div class="score">${correctionData.scores.physics.score}/${correctionData.scores.physics.total}</div>
+                        </div>
+                        <div class="subject-score-card">
+                            <h3>Chemistry</h3>
+                            <div class="score">${correctionData.scores.chemistry.score}/${correctionData.scores.chemistry.total}</div>
+                        </div>
+                        <div class="subject-score-card">
+                            <h3>${correctionData.selectedSubject.charAt(0).toUpperCase() + correctionData.selectedSubject.slice(1)}</h3>
+                            <div class="score">${correctionData.scores.fourth.score}/${correctionData.scores.fourth.total}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-card">
+                    <h2 style="margin-bottom: 24px; color: #0a0a0a; font-family: var(--font-display); font-size: 28px;">Review Your Answers</h2>
+                    
+                    <div class="tabs">
+                        <button class="tab active" data-subject="english">English</button>
+                        <button class="tab" data-subject="physics">Physics</button>
+                        <button class="tab" data-subject="chemistry">Chemistry</button>
+                        <button class="tab" data-subject="${correctionData.selectedSubject}">
+                            ${correctionData.selectedSubject.charAt(0).toUpperCase() + correctionData.selectedSubject.slice(1)}
+                        </button>
+                    </div>
+
+                    <div id="english" class="tab-content active">
+                        ${generateQuestionsHTML('english')}
+                    </div>
+                    <div id="physics" class="tab-content">
+                        ${generateQuestionsHTML('physics')}
+                    </div>
+                    <div id="chemistry" class="tab-content">
+                        ${generateQuestionsHTML('chemistry')}
+                    </div>
+                    <div id="${correctionData.selectedSubject}" class="tab-content">
+                        ${generateQuestionsHTML(correctionData.selectedSubject)}
+                    </div>
+                </div>
+
+                <div class="back-home">
+                    <a href="/">Return to Home</a>
+                </div>
+            `;
+
+            document.getElementById('mainContainer').innerHTML = html;
+
+            // Add tab click handlers
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const subject = tab.dataset.subject;
+                    
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(subject).classList.add('active');
+                });
+            });
+        }
+
+        function generateQuestionsHTML(subject) {
+            const questions = correctionData.questions[subject];
+            
+            return questions.map((question, index) => {
+                const answer = correctionData.answers.find(a => a.subject === subject && a.questionIndex === index);
+                const studentAnswer = answer ? answer.selectedAnswer : undefined;
+                const isCorrect = studentAnswer !== undefined && studentAnswer === question.correctAnswer;
+                const isUnanswered = studentAnswer === undefined;
+                
+                const statusClass = isUnanswered ? 'unanswered' : (isCorrect ? 'correct' : 'incorrect');
+                const statusText = isUnanswered ? 'Not Answered' : (isCorrect ? '✓ Correct' : '✗ Incorrect');
+
+                const imagesHTML = question.imageUrls && question.imageUrls.length > 0 ? `
+                    <div class="question-images">
+                        ${question.imageUrls.map(url => `
+                            <img src="${url}" alt="Question image" class="question-image">
+                        `).join('')}
+                    </div>
+                ` : '';
+
+                const optionsHTML = question.options.map((option, optIndex) => {
+                    const isCorrectOption = optIndex === question.correctAnswer;
+                    const isStudentAnswer = optIndex === studentAnswer;
+                    
+                    let optionClass = '';
+                    let icon = '';
+                    let labelClass = '';
+                    
+                    if (isCorrectOption) {
+                        optionClass = 'correct-answer';
+                        icon = '✓';
+                        labelClass = 'correct';
+                    }
+                    
+                    if (isStudentAnswer && !isCorrect) {
+                        optionClass = 'student-wrong';
+                        icon = '✗';
+                        labelClass = 'wrong';
+                    }
+                    
+                    if (isStudentAnswer && isCorrect) {
+                        optionClass = 'student-correct';
+                        icon = '✓';
+                        labelClass = 'correct';
+                    }
+
+                    return `
+                        <div class="option ${optionClass}">
+                            <span class="option-label ${labelClass}">${String.fromCharCode(65 + optIndex)}</span>
+                            <span class="option-text">${option}</span>
+                            ${icon ? `<span class="option-icon">${icon}</span>` : ''}
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="question-card ${statusClass}">
+                        <div class="question-header">
+                            <span class="question-number">Question ${index + 1}</span>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="question-text">${question.question}</div>
+                        ${imagesHTML}
+                        <div class="options">
+                            ${optionsHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load correction on page load
+        loadCorrection();
+    </script>
+</body>
+</html>
