@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Exam - Smart Steps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #fafafa;
+            --color-bg-elevated: #ffffff;
+            --color-border: rgba(0, 0, 0, 0.06);
+            --color-border-hover: rgba(0, 0, 0, 0.12);
+            --color-text-primary: #0a0a0a;
+            --color-text-secondary: #666666;
+            --color-text-tertiary: #999999;
+            --color-accent: #0066ff;
+            --color-accent-hover: #0052cc;
+            --color-accent-light: rgba(0, 102, 255, 0.08);
+            --color-success: #0ea05a;
+            --color-success-light: rgba(14, 160, 90, 0.08);
+            --color-warning: #f59e0b;
+            --color-warning-light: rgba(245, 158, 11, 0.08);
+            --color-danger: #ef4444;
+            --color-danger-light: rgba(239, 68, 68, 0.08);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.06);
+            --shadow-xl: 0 20px 48px 0 rgba(0, 0, 0, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 102, 255, 0.02) 0%, transparent 50%);
+        }
+
+        .welcome-container {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: var(--shadow-xl);
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @media (min-width: 768px) {
+            .welcome-container {
+                padding: 48px;
+            }
+        }
+
+        .welcome-container h1 {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .welcome-container > p {
+            text-align: center;
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 36px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .form-group input,
+        .form-group select {
+            font-family: var(--font-body);
+            font-size: 15px;
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+        }
+
+        .form-group input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent-light);
+        }
+
+        .form-group input:hover:not(:focus),
+        .form-group select:hover:not(:focus) {
+            border-color: var(--color-border-hover);
+        }
+
+        .rules-box {
+            background: var(--color-warning-light);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin: 28px 0;
+        }
+
+        .rules-box h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-warning);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rules-box ul {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .rules-box li {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .rules-box li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color-warning);
+            font-weight: 700;
+        }
+
+        .start-btn {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--color-accent);
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+            box-shadow: 0 2px 4px rgba(0, 102, 255, 0.1);
+            margin-top: 12px;
+        }
+
+        .start-btn:hover:not(:disabled) {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 102, 255, 0.25);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Exam Screen */
+        .exam-screen {
+            display: none;
+            min-height: 100vh;
+            background: var(--color-bg);
+        }
+
+        .exam-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-bottom: 1px solid var(--color-border);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            .exam-header {
+                padding: 20px 32px;
+                flex-wrap: nowrap;
+            }
+        }
+
+        .exam-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--color-text-primary);
+        }
+        
+        @media (min-width: 768px) {
+            .exam-title {
+                font-size: 20px;
+            }
+        }
+
+        .timer {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--color-text-primary);
+            background: var(--color-bg);
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            min-width: 110px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .timer {
+                font-size: 24px;
+                padding: 10px 20px;
+                min-width: 140px;
+            }
+        }
+
+        .timer.warning {
+            color: var(--color-danger);
+            border-color: var(--color-danger);
+            background: var(--color-danger-light);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .exam-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        
+        @media (min-width: 768px) {
+            .exam-content {
+                padding: 32px;
+                grid-template-columns: 1fr 280px;
+                gap: 32px;
+            }
+        }
+
+        .main-content {
+            grid-column: 1;
+        }
+
+        .sidebar {
+            grid-column: 1;
+            position: relative;
+            top: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .sidebar {
+                grid-column: 2;
+                position: sticky;
+                top: 112px;
+            }
+        }
+
+        /* Subject Tabs */
+        .subject-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            .subject-tabs {
+                margin-bottom: 32px;
+            }
+        }
+
+        .subject-tab {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+        }
+        
+        @media (min-width: 768px) {
+            .subject-tab {
+                font-size: 14px;
+                padding: 12px 24px;
+            }
+        }
+
+        .subject-tab:hover {
+            border-color: var(--color-border-hover);
+            color: var(--color-text-primary);
+        }
+
+        .subject-tab.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        /* Question Grid Sidebar */
+        .question-grid {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+        
+        @media (min-width: 768px) {
+            .question-grid {
+                padding: 24px;
+            }
+        }
+
+        .question-grid h3 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-tertiary);
+            margin-bottom: 16px;
+        }
+
+        .grid-numbers {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+        
+        @media (min-width: 768px) {
+            .grid-numbers {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .grid-number {
+            aspect-ratio: 1;
+            max-width: 48px;
+            max-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .grid-number:hover {
+            border-color: var(--color-accent);
+            transform: scale(1.05);
+        }
+
+        .grid-number.answered {
+            background: var(--color-success-light);
+            border-color: var(--color-success);
+            color: var(--color-success);
+        }
+
+        .grid-number.current {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        @media (min-width: 768px) {
+            .question-card {
+                padding: 36px;
+            }
+        }
+
+        .question-number {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-tertiary);
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+        
+        @media (min-width: 768px) {
+            .question-text {
+                font-size: 18px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .question-images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 600px) {
+            .question-images {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .question-image {
+            width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Options */
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .options {
+                gap: 12px;
+                margin-bottom: 32px;
+            }
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--color-bg);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        @media (min-width: 768px) {
+            .option {
+                gap: 16px;
+                padding: 16px 20px;
+            }
+        }
+
+        .option:hover {
+            border-color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .option.selected {
+            border-color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .option-label {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+        }
+
+        .option.selected .option-label {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            color: var(--color-text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-btn {
+                font-size: 15px;
+                padding: 14px 28px;
+            }
+        }
+
+        .nav-btn:hover {
+            border-color: var(--color-border-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-submit {
+            background: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+        }
+
+        .btn-submit:hover {
+            background: #0c8a4d;
+            box-shadow: 0 4px 12px rgba(14, 160, 90, 0.3);
+        }
+
+        /* Warning Modal */
+        .warning-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .warning-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .warning-content {
+            background: var(--color-bg-elevated);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+            max-width: 480px;
+            width: calc(100% - 32px);
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.9);
+            transition: all var(--transition-base);
+        }
+        
+        @media (min-width: 768px) {
+            .warning-content {
+                padding: 48px;
+                width: auto;
+            }
+        }
+
+        .warning-modal.active .warning-content {
+            transform: scale(1);
+        }
+
+        .warning-content h2 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-danger);
+            margin-bottom: 16px;
+        }
+
+        .warning-content p {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .chances-left {
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--color-warning);
+            margin: 20px 0 8px;
+        }
+
+        .continue-btn {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--color-accent);
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-top: 16px;
+        }
+
+        .continue-btn:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 102, 255, 0.25);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 64px;
+            color: var(--color-text-secondary);
+            font-size: 15px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .exam-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 32px 24px;
+            }
+
+            .exam-header {
+                padding: 16px 20px;
+            }
+
+            .exam-title {
+                font-size: 16px;
+            }
+
+            .timer {
+                font-size: 18px;
+                padding: 8px 12px;
+                min-width: 110px;
+            }
+
+            .exam-content {
+                padding: 20px;
+                gap: 24px;
+            }
+
+            .question-card {
+                padding: 24px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .grid-numbers {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="welcome-screen">
+        <div class="welcome-container">
+            <h1 id="mockName">Loading...</h1>
+            <p id="mockDuration">Duration: Loading...</p>
+
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="studentName">Full Name *</label>
+                    <input type="text" id="studentName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number *</label>
+                    <input type="tel" id="phoneNumber" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="subjectChoice">Choose Your 4th Subject *</label>
+                    <select id="subjectChoice" required>
+                        <option value="">Select a subject</option>
+                        <option value="maths">Mathematics</option>
+                        <option value="biology">Biology</option>
+                    </select>
+                </div>
+
+                <div class="rules-box">
+                    <h3>⚠️ Important Rules</h3>
+                    <ul>
+                        <li><strong style="color: #ef4444;">You can only attempt this mock ONCE on this device</strong></li>
+                        <li>You have <strong>3 chances</strong> only</li>
+                        <li>Leaving this page will use 1 chance</li>
+                        <li>Exiting fullscreen will use 1 chance</li>
+                        <li>After 3 chances, the exam ends automatically</li>
+                        <li>The exam must be completed in <span id="durationDisplay">--</span> minutes</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="start-btn" disabled style="opacity: 0.7;">Loading Mock Exam...</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exam Screen -->
+    <div id="examScreen" class="exam-screen">
+        <div class="exam-header">
+            <div class="exam-title" id="examTitle">Mock Exam</div>
+            <div class="timer" id="timer">00:00:00</div>
+        </div>
+
+        <div class="exam-content">
+            <div class="main-content">
+                <div class="subject-tabs" id="subjectTabs"></div>
+                <div id="questionContainer">
+                    <div class="loading">Loading questions...</div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="question-grid" id="questionGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warning Modal -->
+    <div id="warningModal" class="warning-modal">
+        <div class="warning-content">
+            <h2>⚠️ Warning!</h2>
+            <p id="warningMessage">You have left the exam area!</p>
+            <div class="chances-left" id="chancesDisplay">2</div>
+            <p>Chances remaining</p>
+            <button class="continue-btn" onclick="continueExam()">Continue Exam</button>
+        </div>
+    </div>
+
+    <script>
+        const shareId = window.location.pathname.split('/').pop();
+        console.log('Loading mock with shareId:', shareId);
+        
+        // Check if this mock has already been attempted on this device
+        const attemptKey = `mock_attempted_${shareId}`;
+        const hasAttempted = localStorage.getItem(attemptKey);
+        
+        if (hasAttempted) {
+            // Show already attempted message
+            document.getElementById('welcomeScreen').innerHTML = `
+                <div class="welcome-container" style="text-align: center;">
+                    <h1 style="color: #f56565; font-size: 48px;">⚠️</h1>
+                    <h1 style="color: #333; margin: 20px 0;">Mock Already Attempted</h1>
+                    <p style="color: #666; font-size: 18px; line-height: 1.6;">
+                        You have already attempted this mock exam on this device.<br>
+                        <strong>Each student is allowed only ONE attempt per mock.</strong>
+                    </p>
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 30px 0; border: 2px solid #ffc107;">
+                        <p style="color: #856404; margin: 0;">
+                            <strong>Attempted on:</strong> ${hasAttempted}
+                        </p>
+                    </div>
+                    <p style="color: #999; font-size: 14px;">
+                        If you believe this is an error, please contact the administrator.
+                    </p>
+                </div>
+            `;
+            throw new Error('Mock already attempted on this device');
+        }
+        
+        let mockData = null;
+        let studentName = '';
+        let phoneNumber = '';
+        let selectedSubject = '';
+        let currentSubject = 'english';
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let timeRemaining = 0;
+        let timerInterval = null;
+        let chancesLeft = 3;
+        let examStartTime = null;
+        let isFullscreen = false;
+
+        // Load mock data
+        async function loadMockData() {
+            try {
+                const response = await fetch(`/api/mocks/${shareId}`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Mock not found');
+                }
+
+                mockData = await response.json();
+                document.getElementById('mockName').textContent = mockData.name;
+                document.getElementById('mockDuration').textContent = `Duration: ${mockData.duration} minutes`;
+                document.getElementById('durationDisplay').textContent = mockData.duration;
+                timeRemaining = mockData.duration * 60;
+
+                // Enable the start button
+                const startBtn = document.querySelector('.start-btn');
+                startBtn.disabled = false;
+                startBtn.textContent = 'Start Mock Exam';
+                startBtn.style.opacity = '1';
+            } catch (error) {
+                console.error('Load mock error:', error);
+                document.getElementById('mockName').textContent = 'Error Loading Mock';
+                document.getElementById('mockDuration').textContent = error.message;
+                document.querySelector('.start-btn').disabled = true;
+                document.querySelector('.start-btn').textContent = 'Mock Not Available';
+                document.querySelector('.start-btn').style.opacity = '0.5';
+                alert('Failed to load mock exam: ' + error.message);
+            }
+        }
+
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!mockData) {
+                alert('Mock exam data is still loading. Please wait...');
+                return;
+            }
+
+            studentName = document.getElementById('studentName').value;
+            phoneNumber = document.getElementById('phoneNumber').value;
+            selectedSubject = document.getElementById('subjectChoice').value;
+
+            // Check if this phone number has already attempted this mock
+            try {
+                const checkResponse = await fetch(`/api/mocks/${shareId}/check-attempt`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ phoneNumber })
+                });
+
+                const checkData = await checkResponse.json();
+
+                if (checkData.attempted) {
+                    alert(`This phone number has already been used to attempt this mock exam.\n\nPrevious attempt by: ${checkData.studentName}\nDate: ${new Date(checkData.attemptDate).toLocaleString()}\n\nEach student is allowed only ONE attempt per mock.`);
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking attempt:', error);
+                // Continue anyway if check fails (network error, etc.)
+            }
+
+            startExam();
+        });
+
+        function startExam() {
+            // Mark this mock as attempted on this device
+            const attemptKey = `mock_attempted_${shareId}`;
+            const attemptDate = new Date().toLocaleString();
+            localStorage.setItem(attemptKey, attemptDate);
+            
+            // Request fullscreen
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+
+            examStartTime = Date.now();
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('examScreen').style.display = 'block';
+
+            setupExam();
+            startTimer();
+            setupListeners();
+        }
+
+        function setupExam() {
+            document.getElementById('examTitle').textContent = mockData.name;
+
+            // Create subject tabs
+            const subjects = ['english', 'physics', 'chemistry', selectedSubject];
+            const subjectNames = {
+                'english': 'English',
+                'physics': 'Physics',
+                'chemistry': 'Chemistry',
+                'maths': 'Mathematics',
+                'biology': 'Biology'
+            };
+
+            const tabsHTML = subjects.map(subject => `
+                <button class="subject-tab ${subject === 'english' ? 'active' : ''}" 
+                        data-subject="${subject}">
+                    ${subjectNames[subject]}
+                </button>
+            `).join('');
+
+            document.getElementById('subjectTabs').innerHTML = tabsHTML;
+
+            // Add click handlers to tabs
+            document.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentSubject = tab.dataset.subject;
+                    currentQuestionIndex = 0;
+                    updateSubjectTab();
+                    displayQuestion();
+                    updateQuestionGrid();
+                });
+            });
+
+            displayQuestion();
+            updateQuestionGrid();
+        }
+
+        function updateSubjectTab() {
+            document.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.subject === currentSubject);
+            });
+        }
+
+        function displayQuestion() {
+            const questions = mockData.subjects[currentSubject];
+            if (!questions || questions.length === 0) {
+                document.getElementById('questionContainer').innerHTML = 
+                    '<div class="loading">No questions available</div>';
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const questionKey = `${currentSubject}-${currentQuestionIndex}`;
+
+            const imagesHTML = question.imageUrls && question.imageUrls.length > 0 ? `
+                <div class="question-images">
+                    ${question.imageUrls.map(url => `
+                        <img src="${url}" alt="Question image" class="question-image">
+                    `).join('')}
+                </div>
+            ` : '';
+
+            const optionsHTML = question.options.map((option, index) => `
+                <div class="option ${answers[questionKey] === index ? 'selected' : ''}" 
+                     onclick="selectOption(${index})">
+                    <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                    <span class="option-text">${option}</span>
+                </div>
+            `).join('');
+
+            const navigationHTML = `
+                <div class="navigation">
+                    ${currentQuestionIndex > 0 ? 
+                        '<button class="nav-btn btn-prev" onclick="previousQuestion()">← Previous</button>' : 
+                        '<div></div>'}
+                    ${currentQuestionIndex < questions.length - 1 ? 
+                        '<button class="nav-btn btn-next" onclick="nextQuestion()">Next →</button>' : 
+                        '<button class="nav-btn btn-submit" onclick="submitExam()">Submit Exam</button>'}
+                </div>
+            `;
+
+            document.getElementById('questionContainer').innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Question ${currentQuestionIndex + 1} of ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    ${imagesHTML}
+                    <div class="options">${optionsHTML}</div>
+                    ${navigationHTML}
+                </div>
+            `;
+        }
+
+        function updateQuestionGrid() {
+            const questions = mockData.subjects[currentSubject];
+            
+            const subjectNames = {
+                'english': 'English',
+                'physics': 'Physics',
+                'chemistry': 'Chemistry',
+                'maths': 'Mathematics',
+                'biology': 'Biology'
+            };
+            
+            const gridHTML = `
+                <h3>${subjectNames[currentSubject]} Questions</h3>
+                <div class="grid-numbers">
+                    ${questions.map((_, index) => {
+                        const questionKey = `${currentSubject}-${index}`;
+                        const isAnswered = answers[questionKey] !== undefined;
+                        const isCurrent = index === currentQuestionIndex;
+                        return `
+                            <div class="grid-number ${isAnswered ? 'answered' : ''} ${isCurrent ? 'current' : ''}"
+                                 onclick="jumpToQuestion(${index})">
+                                ${index + 1}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            document.getElementById('questionGrid').innerHTML = gridHTML;
+        }
+
+        function selectOption(optionIndex) {
+            const questionKey = `${currentSubject}-${currentQuestionIndex}`;
+            answers[questionKey] = optionIndex;
+            displayQuestion();
+            updateQuestionGrid();
+        }
+
+        function nextQuestion() {
+            const questions = mockData.subjects[currentSubject];
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateQuestionGrid();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateQuestionGrid();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            displayQuestion();
+            updateQuestionGrid();
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Submitting your exam...');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = display;
+
+            if (timeRemaining < 300) { // Last 5 minutes
+                timerElement.classList.add('warning');
+            }
+        }
+
+        function setupListeners() {
+            // Fullscreen change listener
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+            // Page visibility change
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+
+            // Prevent right click
+            document.addEventListener('contextmenu', (e) => e.preventDefault());
+        }
+
+        function handleFullscreenChange() {
+            isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || 
+                            document.mozFullScreenElement || document.msFullscreenElement);
+
+            if (!isFullscreen && examStartTime) {
+                useChance('You exited fullscreen mode!');
+            }
+        }
+
+        function handleVisibilityChange() {
+            if (document.hidden && examStartTime) {
+                useChance('You left the exam page!');
+            }
+        }
+
+        function useChance(message) {
+            chancesLeft--;
+            
+            if (chancesLeft <= 0) {
+                clearInterval(timerInterval);
+                alert('You have used all 3 chances. The exam has ended.');
+                submitExam();
+                return;
+            }
+
+            document.getElementById('warningMessage').textContent = message;
+            document.getElementById('chancesDisplay').textContent = chancesLeft;
+            document.getElementById('warningModal').classList.add('active');
+        }
+
+        function continueExam() {
+            document.getElementById('warningModal').classList.remove('active');
+            
+            // Re-enter fullscreen
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+        }
+
+        async function submitExam() {
+            clearInterval(timerInterval);
+
+            // Format answers for submission
+            const formattedAnswers = [];
+            const subjects = ['english', 'physics', 'chemistry', selectedSubject];
+
+            subjects.forEach(subject => {
+                const questions = mockData.subjects[subject];
+                questions.forEach((_, index) => {
+                    const questionKey = `${subject}-${index}`;
+                    if (answers[questionKey] !== undefined) {
+                        formattedAnswers.push({
+                            subject: subject,
+                            questionIndex: index,
+                            selectedAnswer: answers[questionKey]
+                        });
+                    }
+                });
+            });
+
+            const timeSpent = Math.floor((Date.now() - examStartTime) / 1000);
+
+            try {
+                const response = await fetch(`/api/mocks/${shareId}/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        studentName,
+                        phoneNumber,
+                        selectedSubject,
+                        answers: formattedAnswers,
+                        timeSpent,
+                        chancesUsed: 3 - chancesLeft
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('Submission successful, correction data:', data);
+                    
+                    // Exit fullscreen
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                    
+                    // Check if correctionId exists
+                    if (!data.result || !data.result.correctionId) {
+                        console.error('No correctionId in response:', data);
+                        alert('Exam submitted but correction ID is missing. Please contact admin.');
+                        return;
+                    }
+                    
+                    console.log('Redirecting to correction page:', data.result.correctionId);
+                    // Redirect to correction page
+                    window.location.href = `/correction/${data.result.correctionId}`;
+                } else {
+                    console.error('Submission failed:', data);
+                    alert('Failed to submit exam: ' + (data.error || 'Unknown error') + 
+                          (data.details ? '\nDetails: ' + data.details : ''));
+                }
+            } catch (error) {
+                console.error('Submit error:', error);
+                alert('An error occurred while submitting. Please try again.');
+            }
+        }
+
+        // Load mock data on page load
+        loadMockData();
+    </script>
+</body>
+</html>
